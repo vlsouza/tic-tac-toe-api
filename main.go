@@ -13,20 +13,25 @@ import (
 )
 
 func main() {
-	initDBClient()
-	initAPI()
+	db := initDBClient()
+	initAPI(db)
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "tic-tac-toe-api is running...")
 }
 
-func initAPI() {
+func initAPI(db *dynamodb.Client) {
+	//check API health
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/health", health)
 
-	config := match.Config{Router: router}
+	config := match.Config{
+		DB:     db,
+		Router: router,
+	}
 
+	//initiate API
 	match.NewAPI(config)
 
 	fmt.Println("API is running at port 8080.")
@@ -35,8 +40,10 @@ func initAPI() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
 }
 
-func initDBClient() {
+func initDBClient() *dynamodb.Client {
 	ctx := context.Background()
+
+	fmt.Println("Connecting to DB........")
 
 	// Carregando configurações padrão
 	cfg, err := config.LoadDefaultConfig(ctx,
@@ -46,17 +53,8 @@ func initDBClient() {
 		log.Fatalf("unable to load SDK config, %v", err)
 	}
 
+	fmt.Println("Connected.")
+
 	// Criando o cliente DynamoDB
-	svc := dynamodb.NewFromConfig(cfg)
-
-	// Chamada de exemplo: Listar tabelas
-	result, err := svc.ListTables(ctx, &dynamodb.ListTablesInput{})
-	if err != nil {
-		log.Fatalf("failed to list tables, %v", err)
-	}
-
-	fmt.Println("Tables:")
-	for _, tableName := range result.TableNames {
-		fmt.Println(tableName)
-	}
+	return dynamodb.NewFromConfig(cfg)
 }

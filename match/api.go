@@ -5,17 +5,19 @@ import (
 
 	"main/match/service"
 
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gorilla/mux"
 )
 
 // Config is used to setup the API.
 type Config struct {
+	DB     *dynamodb.Client
 	Router *mux.Router
 }
 
 // New is used to initialize the API.
 func NewAPI(c Config) {
-	handler := NewHandler(service.New())
+	handler := NewHandler(service.New(c.DB))
 	SetRoutes(handler, c.Router)
 }
 
