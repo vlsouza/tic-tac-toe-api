@@ -39,12 +39,12 @@ func NewMatchRequest() (CreateMatchRequest, error) {
 
 	// Definir o item que será criado
 	dynamoRequest := map[string]types.AttributeValue{
-		"MatchID":           &types.AttributeValueMemberS{Value: id.String()},
-		"Status":            &types.AttributeValueMemberS{Value: "Running"},
-		"Board":             &types.AttributeValueMemberS{Value: "000,000,000"},
-		"CurrentPlayerTurn": &types.AttributeValueMemberS{Value: "Player1"},
-		"NextPlayerTurn":    &types.AttributeValueMemberS{Value: "Player2"},
-		"LastMoveXY":        &types.AttributeValueMemberS{Value: ""},
+		"match_id":            &types.AttributeValueMemberS{Value: id.String()},
+		"status":              &types.AttributeValueMemberS{Value: "Running"},
+		"board":               &types.AttributeValueMemberS{Value: "000,000,000"},
+		"current_player_turn": &types.AttributeValueMemberS{Value: "Player1"},
+		"next_player_turn":    &types.AttributeValueMemberS{Value: "Player2"},
+		"last_move_xy":        &types.AttributeValueMemberS{Value: ""},
 	}
 
 	return CreateMatchRequest{
