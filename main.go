@@ -25,7 +25,7 @@ func initAPI() {
 
 	match.NewAPI(config)
 
-	fmt.Println("API is running.")
+	fmt.Println("API is running at port 8080.")
 
 	port := "8080"
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
