@@ -4,18 +4,18 @@ import (
 	"net/http"
 )
 
-type service interface {
+type matchService interface {
 	Create() error
 }
 
 // Handler is used to aggregate all endpoints related
 type Handler struct {
-	svc service
+	service matchService
 }
 
 // NewHandler instance a new API handler
-func NewHandler(svc service) *Handler {
-	return &Handler{svc: svc}
+func NewHandler(service matchService) *Handler {
+	return &Handler{service: service}
 }
 
 func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {

@@ -3,28 +3,30 @@ package main
 import (
 	"fmt"
 	"log"
+	"main/match"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/hello" {
-		http.Error(w, "404 not found.", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "GET" {
-		http.Error(w, "Method is not supported.", http.StatusNotFound)
-		return
-	}
-
-	fmt.Fprintf(w, "Hello!")
+func main() {
+	initAPI()
 }
 
-func main() {
-	http.HandleFunc("/hello", helloHandler)
+func health(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "tic-tac-toe-api is running...")
+}
 
-	fmt.Printf("Starting server at port 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatal(err)
-	}
+func initAPI() {
+	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/health", health)
+
+	config := match.Config{Router: router}
+
+	match.NewAPI(config)
+
+	fmt.Println("API is running.")
+
+	port := "8080"
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), router))
 }

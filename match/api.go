@@ -3,6 +3,8 @@ package match
 import (
 	"net/http"
 
+	"main/match/service"
+
 	"github.com/gorilla/mux"
 )
 
@@ -12,8 +14,8 @@ type Config struct {
 }
 
 // New is used to initialize the API.
-func New(c Config) {
-	handler := NewHandler(nil)
+func NewAPI(c Config) {
+	handler := NewHandler(service.New())
 	SetRoutes(handler, c.Router)
 }
 
