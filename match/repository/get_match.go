@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (r Repository) GetState(ctx context.Context, matchID uuid.UUID) (Match, error) {
+func (r Repository) GetByID(ctx context.Context, matchID uuid.UUID) (Match, error) {
 	var response Match = Match{}
 
 	result, err := r.db.GetItem(ctx, &dynamodb.GetItemInput{

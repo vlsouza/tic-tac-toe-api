@@ -20,17 +20,15 @@ type match struct {
 
 type CreateMatchResponse struct {
 	MatchID uuid.UUID `json:"match_id"`
-	//TODO move to enum
-	Status string `json:"status,omitempty"`
-	Board  string `json:"board,omitempty"`
-	//TODO move to enum
-	CurrentPlayerTurn string `json:"current_player_turn,omitempty"`
-	NextPlayerTurn    string `json:"next_player_turn,omitempty"`
-	LastMoveXY        string `json:"last_move_xy,omitempty"`
 }
 
 type GetStateResponse struct {
-	CreateMatchResponse
+	MatchID           uuid.UUID `json:"match_id"`
+	Status            string    `json:"status"`
+	Board             string    `json:"board"`
+	CurrentPlayerTurn string    `json:"current_player_turn"`
+	NextPlayerTurn    string    `json:"next_player_turn"`
+	LastMoveXY        string    `json:"last_move_xy"`
 }
 
 func (match match) start(ctx context.Context, repo repository.RepositoryI) error {

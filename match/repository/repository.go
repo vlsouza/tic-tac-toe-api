@@ -9,7 +9,7 @@ import (
 
 type RepositoryI interface {
 	Create(ctx context.Context, match Match) (*dynamodb.PutItemOutput, error)
-	GetState(ctx context.Context, matchID uuid.UUID) (Match, error)
+	GetByID(ctx context.Context, matchID uuid.UUID) (Match, error)
 }
 
 type Repository struct {

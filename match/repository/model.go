@@ -8,14 +8,12 @@ import (
 
 // DB model
 type Match struct {
-	ID uuid.UUID
-	//TODO move to enum
-	Status string
-	Board  string
-	//TODO move to enum
-	CurrentPlayerTurn string
-	NextPlayerTurn    string
-	LastMoveXY        string
+	ID                uuid.UUID `dynamodbav:"match_id"`
+	Status            string    `dynamodbav:"status"`
+	Board             string    `dynamodbav:"board"`
+	CurrentPlayerTurn string    `dynamodbav:"current_player_turn"`
+	NextPlayerTurn    string    `dynamodbav:"next_player_turn"`
+	LastMoveXY        string    `dynamodbav:"last_move_xy"`
 }
 
 const TableName string = "TicTacToeMatch"
