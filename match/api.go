@@ -3,6 +3,7 @@ package match
 import (
 	"net/http"
 
+	"main/match/repository"
 	"main/match/service"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -17,7 +18,9 @@ type Config struct {
 
 // New is used to initialize the API.
 func NewAPI(c Config) {
-	handler := NewHandler(service.New(c.DB))
+	handler := NewHandler(
+		service.New(repository.Repository{DB: c.DB}),
+	)
 	SetRoutes(handler, c.Router)
 }
 

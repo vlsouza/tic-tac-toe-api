@@ -1,12 +1,19 @@
 package service
 
 import (
+	"context"
+	"main/match/repository"
+
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/google/uuid"
 )
 
-type CreateMatchRequest struct {
-	MatchID uuid.UUID
+type MatchI interface {
+	Start() error
+}
+
+type match struct {
+	ID uuid.UUID
 	//TODO move to enum
 	Status string
 	Board  string
@@ -14,17 +21,17 @@ type CreateMatchRequest struct {
 	CurrentPlayerTurn string
 	NextPlayerTurn    string
 	LastMoveXY        string
-	DynamoRequest     map[string]types.AttributeValue
+	DynamoRequest     repository.CreateDynamoRequest
 }
 
 type CreateMatchResponse struct {
 	MatchID uuid.UUID
 }
 
-func NewMatchRequest() (CreateMatchRequest, error) {
+func StartNewMatch(ctx context.Context, repo repository.RepositoryI) (CreateMatchResponse, error) {
 	id, err := uuid.NewUUID()
 	if err != nil {
-		return CreateMatchRequest{}, err
+		return CreateMatchResponse{}, err
 	}
 
 	//initial match values
@@ -47,13 +54,31 @@ func NewMatchRequest() (CreateMatchRequest, error) {
 		"last_move_xy":        &types.AttributeValueMemberS{Value: ""},
 	}
 
-	return CreateMatchRequest{
-		MatchID:           matchID,
+	match := match{
+		ID:                matchID,
 		Status:            status,
 		Board:             board,
 		CurrentPlayerTurn: currentPlayerTurn,
 		NextPlayerTurn:    NextPlayerTurn,
 		LastMoveXY:        LastMoveXY,
 		DynamoRequest:     dynamoRequest,
+	}
+
+	//start match on dynamoDB
+	err = match.start(ctx, repo)
+	if err != nil {
+		return CreateMatchResponse{}, err
+	}
+
+	return CreateMatchResponse{
+		MatchID: match.ID,
 	}, nil
+}
+
+func (match match) start(ctx context.Context, repo repository.RepositoryI) error {
+	_, err := repo.Create(ctx, match.DynamoRequest)
+	if err != nil {
+		return err
+	}
+	return nil
 }
