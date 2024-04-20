@@ -19,7 +19,7 @@ type Config struct {
 // New is used to initialize the API.
 func NewAPI(c Config) {
 	handler := NewHandler(
-		service.New(repository.Repository{DB: c.DB}),
+		service.New(repository.New(c.DB)),
 	)
 	SetRoutes(handler, c.Router)
 }

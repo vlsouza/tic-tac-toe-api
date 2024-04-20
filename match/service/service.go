@@ -3,7 +3,14 @@ package service
 import (
 	"context"
 	"main/match/repository"
+
+	"github.com/google/uuid"
 )
+
+type ServiceI interface {
+	Create(ctx context.Context) (CreateMatchResponse, error)
+	GetStateByID(ctx context.Context, matchID uuid.UUID) (GetStateResponse, error)
+}
 
 type Service struct {
 	repo repository.RepositoryI
@@ -12,9 +19,4 @@ type Service struct {
 // New ..
 func New(repo repository.RepositoryI) Service {
 	return Service{repo}
-}
-
-// Create ...
-func (svc Service) Create(ctx context.Context) (CreateMatchResponse, error) {
-	return StartNewMatch(ctx, svc.repo)
 }
