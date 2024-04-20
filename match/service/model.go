@@ -34,7 +34,7 @@ type GetStateResponse struct {
 func (match match) start(ctx context.Context, repo repository.RepositoryI) error {
 	_, err := repo.Create(ctx,
 		repository.Match{
-			ID:                match.ID,
+			ID:                match.ID.String(),
 			Status:            match.Status,
 			Board:             match.Board,
 			CurrentPlayerTurn: match.CurrentPlayerTurn,
