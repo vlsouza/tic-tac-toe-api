@@ -24,8 +24,8 @@ func startNewMatch(ctx context.Context, repo repository.RepositoryI) (CreateMatc
 		ID:                id,
 		Status:            "Running",
 		Board:             "000,000,000",
-		CurrentPlayerTurn: 1,
-		NextPlayerTurn:    2,
+		CurrentPlayerTurn: "PLAYER1",
+		NextPlayerTurn:    "PLAYER2",
 		LastMoveXY:        "",
 	}
 

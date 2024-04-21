@@ -45,12 +45,12 @@ func (svc Service) GetNextState(
 
 // TODO optimize updateBoard and inside functions
 // Updates the tic-tac-toe board and checks game status
-func getBoard(board string, player, row, col int8) string {
+func getBoard(board, player string, row, col int8) string {
 	rows := strings.Split(board, ",")
 	for i, rowContent := range rows {
 		cells := strings.Split(rowContent, "")
 		if int8(i) == row {
-			cells[col] = fmt.Sprintf("%d", player)
+			cells[col] = player
 			rows[i] = strings.Join(cells, "")
 		}
 	}
@@ -58,9 +58,9 @@ func getBoard(board string, player, row, col int8) string {
 }
 
 // Get the status of the game
-func getGameStatus(board string, player int8) string {
+func getGameStatus(board, player string) string {
 	rows := strings.Split(board, ",")
-	winningPlayer := fmt.Sprintf("%d%d%d", player, player, player)
+	winningPlayer := fmt.Sprintf("%s%s%s", player, player, player)
 
 	// Check rows and columns for win
 	for i := 0; i < 3; i++ {
@@ -86,17 +86,17 @@ func getGameStatus(board string, player int8) string {
 	return "RUNNING"
 }
 
-func getPlayers(currentPlayer int8) (int8, int8) {
-	if currentPlayer == 1 {
-		return 2, 1
+func getPlayers(currentPlayer string) (string, string) {
+	if currentPlayer == "PLAYER1" {
+		return "PLAYER2", "PLAYER1"
 	} else {
-		return 1, 2
+		return "PLAYER1", "PLAYER2"
 	}
 }
 
 // Returns the win status based on the player
-func winStatus(player int8) string {
-	if player == 1 {
+func winStatus(player string) string {
+	if player == "PLAYER1" {
 		return "PLAYER1WON"
 	}
 	return "PLAYER2WON"

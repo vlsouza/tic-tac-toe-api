@@ -14,8 +14,8 @@ type Match struct {
 	ID                string `dynamodbav:"match_id"`
 	Status            string `dynamodbav:"status"`
 	Board             string `dynamodbav:"board"`
-	CurrentPlayerTurn int8   `dynamodbav:"current_player_turn"`
-	NextPlayerTurn    int8   `dynamodbav:"next_player_turn"`
+	CurrentPlayerTurn string `dynamodbav:"current_player_turn"`
+	NextPlayerTurn    string `dynamodbav:"next_player_turn"`
 	LastMoveXY        string `dynamodbav:"last_move_xy"`
 }
 
