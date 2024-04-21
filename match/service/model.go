@@ -32,9 +32,8 @@ type GetStateResponse struct {
 
 type MoveRequest struct {
 	MatchID uuid.UUID
-	Player  string `json:"player"`
-	Row     int8   `json:"row"`
-	Col     int8   `json:"col"`
+	Row     int8 `json:"row"`
+	Col     int8 `json:"col"`
 }
 
 func (match CreateMatchRequest) start(ctx context.Context, repo repository.RepositoryI) error {

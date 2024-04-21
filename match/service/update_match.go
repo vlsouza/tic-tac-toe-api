@@ -29,8 +29,8 @@ func (svc Service) GetNextState(
 		return repository.Match{}, err
 	}
 
-	newBoard := getBoard(currentMatchState.Board, request.Player, request.Row, request.Col)
-	newStatus := getGameStatus(currentMatchState.Board, request.Player)
+	newBoard := getBoard(currentMatchState.Board, currentMatchState.CurrentPlayerTurn, request.Row, request.Col)
+	newStatus := getGameStatus(currentMatchState.Board, currentMatchState.CurrentPlayerTurn)
 	newCurrentPlayer, newNextPlayerTurn := getPlayers(currentMatchState.CurrentPlayerTurn)
 
 	return repository.Match{
