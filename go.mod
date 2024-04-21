@@ -10,7 +10,10 @@ require (
 	github.com/pkg/errors v0.9.1
 )
 
-require github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.20.4 // indirect
+require (
+	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.7.13 // indirect
+	github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.20.4 // indirect
+)
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.26.1

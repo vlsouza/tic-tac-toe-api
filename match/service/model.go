@@ -7,14 +7,13 @@ import (
 	"github.com/google/uuid"
 )
 
-type match struct {
-	ID uuid.UUID
-	//TODO move to enum
-	Status string
-	Board  string
-	//TODO move to enum
-	CurrentPlayerTurn string
-	NextPlayerTurn    string
+// TODO move status and players to enum
+type CreateMatchRequest struct {
+	ID                uuid.UUID
+	Status            string
+	Board             string
+	CurrentPlayerTurn int8
+	NextPlayerTurn    int8
 	LastMoveXY        string
 }
 
@@ -26,12 +25,19 @@ type GetStateResponse struct {
 	MatchID           uuid.UUID `json:"match_id"`
 	Status            string    `json:"status"`
 	Board             string    `json:"board"`
-	CurrentPlayerTurn string    `json:"current_player_turn"`
-	NextPlayerTurn    string    `json:"next_player_turn"`
+	CurrentPlayerTurn int8      `json:"current_player_turn"`
+	NextPlayerTurn    int8      `json:"next_player_turn"`
 	LastMoveXY        string    `json:"last_move_xy"`
 }
 
-func (match match) start(ctx context.Context, repo repository.RepositoryI) error {
+type MoveRequest struct {
+	MatchID uuid.UUID `json:"match_id"`
+	Player  int8      `json:"player"`
+	Row     int8      `json:"row"`
+	Col     int8      `json:"col"`
+}
+
+func (match CreateMatchRequest) start(ctx context.Context, repo repository.RepositoryI) error {
 	_, err := repo.Create(ctx,
 		repository.Match{
 			ID:                match.ID.String(),

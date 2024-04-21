@@ -41,5 +41,5 @@ func (h *Handler) GetState(w http.ResponseWriter, r *http.Request) {
 	rest.SendJSON(w, matchState)
 }
 
-//func (h *Handler) UpdateBoard(w http.ResponseWriter, r *http.Request) {
-//}
+func (h *Handler) Move(w http.ResponseWriter, r *http.Request) {
+}
