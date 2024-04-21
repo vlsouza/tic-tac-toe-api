@@ -46,6 +46,7 @@ func (svc Service) GetNextState(
 // TODO optimize updateBoard and inside functions
 // Updates the tic-tac-toe board and checks game status
 func getBoard(board, player string, row, col int8) string {
+	//fix bug generating new board
 	rows := strings.Split(board, ",")
 	for i, rowContent := range rows {
 		cells := strings.Split(rowContent, "")
