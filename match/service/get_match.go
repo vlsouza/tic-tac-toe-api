@@ -13,16 +13,5 @@ func (svc Service) GetStateByID(ctx context.Context, matchID uuid.UUID) (GetStat
 		return GetStateResponse{}, err
 	}
 
-	matchStateMatchID, err := uuid.Parse(match.ID)
-	if err != nil {
-		return GetStateResponse{}, err
-	}
-	return GetStateResponse{
-		MatchID:           matchStateMatchID,
-		Status:            match.Status,
-		Board:             match.Board,
-		CurrentPlayerTurn: match.CurrentPlayerTurn,
-		NextPlayerTurn:    match.NextPlayerTurn,
-		LastMoveXY:        match.LastMoveXY,
-	}, nil
+	return NewGetStateResponse(match), nil
 }

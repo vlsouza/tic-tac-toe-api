@@ -10,6 +10,7 @@ import (
 type ServiceI interface {
 	Create(ctx context.Context) (CreateMatchResponse, error)
 	GetStateByID(ctx context.Context, matchID uuid.UUID) (GetStateResponse, error)
+	PlaceMove(ctx context.Context, request MoveRequest) (GetStateResponse, error)
 }
 
 type Service struct {

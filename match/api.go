@@ -27,5 +27,6 @@ func NewAPI(c Config) {
 // SetRoutes is used to declare all endpoints managed by this API.
 func SetRoutes(handler *Handler, router *mux.Router) {
 	router.HandleFunc("/matches", handler.Create).Methods(http.MethodPost)
+	router.HandleFunc("/matches/{id}", handler.Move).Methods(http.MethodPut)
 	router.HandleFunc("/matches/{id}", handler.GetState).Methods(http.MethodGet)
 }

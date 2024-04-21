@@ -1,6 +1,7 @@
 package match
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -42,4 +43,23 @@ func (h *Handler) GetState(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) Move(w http.ResponseWriter, r *http.Request) {
+	matchID, err := rest.GetUUID(r, "id")
+	if err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+
+	var moveRequest service.MoveRequest
+	err = json.NewDecoder(r.Body).Decode(&moveRequest)
+	if err != nil {
+		//TODO handle error properly
+		fmt.Fprint(w, err.Error())
+	}
+	moveRequest.MatchID = matchID
+
+	newMatchState, err := h.service.PlaceMove(r.Context(), moveRequest)
+	if err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+
+	rest.SendJSON(w, newMatchState)
 }

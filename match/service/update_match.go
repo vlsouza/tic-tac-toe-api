@@ -7,13 +7,17 @@ import (
 	"strings"
 )
 
-func (svc Service) PlaceMove(ctx context.Context, request MoveRequest) error {
+func (svc Service) PlaceMove(ctx context.Context, request MoveRequest) (GetStateResponse, error) {
 	newMatchState, err := svc.GetNextState(ctx, request)
+	if err != nil {
+		return GetStateResponse{}, err
+	}
 	_, err = svc.repo.Update(ctx, newMatchState)
 	if err != nil {
-		return err
+		return GetStateResponse{}, err
 	}
-	return nil
+
+	return NewGetStateResponse(newMatchState), nil
 }
 
 func (svc Service) GetNextState(

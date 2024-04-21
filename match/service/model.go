@@ -31,10 +31,10 @@ type GetStateResponse struct {
 }
 
 type MoveRequest struct {
-	MatchID uuid.UUID `json:"match_id"`
-	Player  int8      `json:"player"`
-	Row     int8      `json:"row"`
-	Col     int8      `json:"col"`
+	MatchID uuid.UUID
+	Player  int8 `json:"player"`
+	Row     int8 `json:"row"`
+	Col     int8 `json:"col"`
 }
 
 func (match CreateMatchRequest) start(ctx context.Context, repo repository.RepositoryI) error {
@@ -50,4 +50,19 @@ func (match CreateMatchRequest) start(ctx context.Context, repo repository.Repos
 		return err
 	}
 	return nil
+}
+
+func NewGetStateResponse(match repository.Match) GetStateResponse {
+	matchStateMatchID, err := uuid.Parse(match.ID)
+	if err != nil {
+		return GetStateResponse{}
+	}
+	return GetStateResponse{
+		MatchID:           matchStateMatchID,
+		Status:            match.Status,
+		Board:             match.Board,
+		CurrentPlayerTurn: match.CurrentPlayerTurn,
+		NextPlayerTurn:    match.NextPlayerTurn,
+		LastMoveXY:        match.LastMoveXY,
+	}
 }
