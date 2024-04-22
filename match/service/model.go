@@ -5,6 +5,8 @@ import (
 	"main/match/repository"
 
 	"github.com/google/uuid"
+
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
 // TODO move status and players to enum
@@ -64,4 +66,11 @@ func NewGetStateResponse(match repository.Match) GetStateResponse {
 		NextPlayerTurn:    match.NextPlayerTurn,
 		LastMoveXY:        match.LastMoveXY,
 	}
+}
+
+func (a MoveRequest) Validate() error {
+	return validation.ValidateStruct(&a,
+		validation.Field(&a.Row, validation.Required, validation.Min(1), validation.Max(3)),
+		validation.Field(&a.Col, validation.Required, validation.Min(1), validation.Max(3)),
+	)
 }

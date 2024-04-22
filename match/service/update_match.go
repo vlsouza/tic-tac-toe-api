@@ -48,13 +48,14 @@ func (svc Service) GetNextState(
 func getBoard(board, player string, row, col int8) string {
 	//fix bug generating new board
 	rows := strings.Split(board, ",")
-	for i, rowContent := range rows {
-		cells := strings.Split(rowContent, "")
-		if int8(i) == row {
-			cells[col] = player
+	for i := 0; i < 3; i++ {
+		cells := strings.Split(rows[i], "")
+		if int8(i) == row-1 {
+			cells[col-1] = player
 			rows[i] = strings.Join(cells, "")
 		}
 	}
+
 	return strings.Join(rows, ",")
 }
 
