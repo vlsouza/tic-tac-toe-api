@@ -63,8 +63,8 @@ func getBoard(board, player string, row, col int8) string {
 func getGameStatus(board, player string) string {
 	rows := strings.Split(board, ",")
 	//move to function or improve 'player' type
-	player = strings.Replace(player, "PLAYER", "", -1)
-	winningPlayer := fmt.Sprintf("%s%s%s", player, player, player)
+	playerNumber := strings.Replace(player, "PLAYER", "", -1)
+	winningPlayer := fmt.Sprintf("%s%s%s", playerNumber, playerNumber, playerNumber)
 
 	// Check rows and columns for win
 	for i := 0; i < 3; i++ {
