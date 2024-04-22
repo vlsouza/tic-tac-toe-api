@@ -30,7 +30,7 @@ func (svc Service) GetNextState(
 	}
 
 	newBoard := getBoard(currentMatchState.Board, currentMatchState.CurrentPlayerTurn, request.Row, request.Col)
-	newStatus := getGameStatus(currentMatchState.Board, currentMatchState.CurrentPlayerTurn)
+	newStatus := getGameStatus(newBoard, currentMatchState.CurrentPlayerTurn)
 	newCurrentPlayer, newNextPlayerTurn := getPlayers(currentMatchState.CurrentPlayerTurn)
 
 	return repository.Match{
