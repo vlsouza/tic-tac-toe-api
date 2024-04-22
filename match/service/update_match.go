@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"main/match/repository"
 	"strings"
@@ -27,6 +28,10 @@ func (svc Service) GetNextState(
 	currentMatchState, err := svc.repo.GetByID(ctx, request.MatchID)
 	if err != nil {
 		return repository.Match{}, err
+	}
+
+	if currentMatchState.Status != "RUNNING" {
+		return repository.Match{}, errors.New("the match is current not Running. Cannot update the board")
 	}
 
 	newBoard := getBoard(currentMatchState.Board, currentMatchState.CurrentPlayerTurn, request.Row, request.Col)
