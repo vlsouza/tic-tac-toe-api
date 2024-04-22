@@ -22,7 +22,7 @@ func startNewMatch(ctx context.Context, repo repository.RepositoryI) (CreateMatc
 	//new match instance
 	match := CreateMatchRequest{
 		ID:                id,
-		Status:            "Running",
+		Status:            "RUNNING",
 		Board:             "000,000,000",
 		CurrentPlayerTurn: "PLAYER1",
 		NextPlayerTurn:    "PLAYER2",
