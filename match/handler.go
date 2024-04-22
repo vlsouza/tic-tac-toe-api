@@ -56,6 +56,10 @@ func (h *Handler) Move(w http.ResponseWriter, r *http.Request) {
 	}
 	moveRequest.MatchID = matchID
 
+	if err := moveRequest.Validate(); err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+
 	newMatchState, err := h.service.PlaceMove(r.Context(), moveRequest)
 	if err != nil {
 		fmt.Fprint(w, err.Error())

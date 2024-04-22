@@ -68,7 +68,7 @@ func getGameStatus(board, player string) string {
 
 	// Check rows and columns for win
 	for i := 0; i < 3; i++ {
-		if strings.Join(strings.Split(rows[i], ""), "") == winningPlayer {
+		if rows[i] == winningPlayer {
 			return winStatus(player)
 		}
 		if strings.Join([]string{string(rows[0][i]), string(rows[1][i]), string(rows[2][i])}, "") == winningPlayer {
