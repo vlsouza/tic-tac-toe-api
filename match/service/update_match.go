@@ -51,7 +51,7 @@ func getBoard(board, player string, row, col int8) string {
 	for i := 0; i < 3; i++ {
 		cells := strings.Split(rows[i], "")
 		if int8(i) == row-1 {
-			cells[col-1] = player
+			cells[col-1] = strings.Replace(player, "PLAYER", "", -1)
 			rows[i] = strings.Join(cells, "")
 		}
 	}
