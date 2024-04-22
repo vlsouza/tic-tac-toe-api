@@ -45,6 +45,7 @@ func (match CreateMatchRequest) start(ctx context.Context, repo repository.Repos
 			Status:            match.Status,
 			Board:             match.Board,
 			CurrentPlayerTurn: match.CurrentPlayerTurn,
+			NextPlayerTurn:    match.NextPlayerTurn,
 		},
 	)
 	if err != nil {

@@ -1,9 +1,7 @@
 package repository
 
 import (
-	"context"
 	"fmt"
-	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -34,20 +32,4 @@ func (m Match) getDynamoRequest() map[string]types.AttributeValue {
 		"next_player_turn":    &types.AttributeValueMemberS{Value: fmt.Sprint(m.NextPlayerTurn)},
 		"last_move_xy":        &types.AttributeValueMemberS{Value: m.LastMoveXY},
 	}
-}
-
-func (m Match) UpdateBoard(
-	ctx context.Context,
-	player, row, col int,
-) string {
-	rows := strings.Split(m.Board, ",")
-	for i, rowContent := range rows {
-		cells := strings.Split(rowContent, "")
-		if i == row {
-			cells[col] = fmt.Sprintf("%d", player)
-			rows[i] = strings.Join(cells, "")
-		}
-	}
-
-	return strings.Join(rows, ",")
 }
