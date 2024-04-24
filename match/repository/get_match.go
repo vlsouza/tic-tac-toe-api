@@ -70,7 +70,7 @@ func getListByStatus(
 	// Executa a consulta
 	return svc.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:              Match{}.awsTableName(),
-		KeyConditionExpression: aws.String("Status = :status"),
+		KeyConditionExpression: aws.String("status = :status"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":status": &types.AttributeValueMemberS{Value: status},
 		},
