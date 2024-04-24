@@ -78,9 +78,11 @@ func getListByStatus(
 	// Executa a consulta
 	return svc.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:                 Match{}.awsTableName(),
+		IndexName:                 aws.String("match_id"),
 		ExpressionAttributeNames:  expr.Names(),
 		ExpressionAttributeValues: expr.Values(),
 		KeyConditionExpression:    expr.KeyCondition(),
 		Limit:                     aws.Int32(int32(limit)), // Limita a 5 resultados
+		ScanIndexForward:          aws.Bool(false),
 	})
 }
