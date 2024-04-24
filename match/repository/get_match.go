@@ -8,7 +8,6 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/google/uuid"
@@ -68,21 +67,13 @@ func getListByStatus(
 	status string,
 	limit int,
 ) (*dynamodb.QueryOutput, error) {
-	// Construa a condição de chave e a expressão de projeção
-	keyCond := expression.Key("status").Equal(expression.Value(status))
-	expr, err := expression.NewBuilder().WithKeyCondition(keyCond).Build()
-	if err != nil {
-		log.Fatalf("Got error building expression: %s", err)
-	}
-
 	// Executa a consulta
 	return svc.Query(context.TODO(), &dynamodb.QueryInput{
-		TableName:                 Match{}.awsTableName(),
-		IndexName:                 aws.String("match_id"),
-		ExpressionAttributeNames:  expr.Names(),
-		ExpressionAttributeValues: expr.Values(),
-		KeyConditionExpression:    expr.KeyCondition(),
-		Limit:                     aws.Int32(int32(limit)), // Limita a 5 resultados
-		ScanIndexForward:          aws.Bool(false),
+		TableName:              Match{}.awsTableName(),
+		KeyConditionExpression: aws.String("Status = :status"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":status": &types.AttributeValueMemberS{Value: status},
+		},
+		Limit: aws.Int32(int32(limit)),
 	})
 }
