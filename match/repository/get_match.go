@@ -68,11 +68,8 @@ func getListByStatus(
 	status string,
 	limit int,
 ) (*dynamodb.QueryOutput, error) {
-	tableName := "YourTableName"
-	indexName := "YourIndexName" // Substitua pelo nome do seu índice secundário
-
 	// Construa a condição de chave e a expressão de projeção
-	keyCond := expression.Key("Status").Equal(expression.Value(status))
+	keyCond := expression.Key("status").Equal(expression.Value(status))
 	expr, err := expression.NewBuilder().WithKeyCondition(keyCond).Build()
 	if err != nil {
 		log.Fatalf("Got error building expression: %s", err)
@@ -80,12 +77,10 @@ func getListByStatus(
 
 	// Executa a consulta
 	return svc.Query(context.TODO(), &dynamodb.QueryInput{
-		TableName:                 aws.String(tableName),
-		IndexName:                 aws.String(indexName),
+		TableName:                 Match{}.awsTableName(),
 		ExpressionAttributeNames:  expr.Names(),
 		ExpressionAttributeValues: expr.Values(),
 		KeyConditionExpression:    expr.KeyCondition(),
 		Limit:                     aws.Int32(int32(limit)), // Limita a 5 resultados
-		ScanIndexForward:          aws.Bool(false),         // False para ordenar de forma descendente
 	})
 }
