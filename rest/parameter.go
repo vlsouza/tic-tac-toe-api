@@ -27,10 +27,12 @@ func GetUUID(r *http.Request, param string) (uuid.UUID, error) {
 
 // GetString gets a request parameter as string
 func GetString(r *http.Request, param string) (string, error) {
-	p, ok := mux.Vars(r)[param]
-	if !ok {
+	values := r.URL.Query()
+
+	p, ok := values[param]
+	if !ok || len(p[0]) == 0 {
 		return "", errors.New("param not found")
 	}
 
-	return p, nil
+	return p[0], nil
 }
