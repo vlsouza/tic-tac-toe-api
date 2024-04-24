@@ -8,9 +8,10 @@ import (
 )
 
 type RepositoryI interface {
-	Create(ctx context.Context, match Match) (*dynamodb.PutItemOutput, error)
-	GetByID(ctx context.Context, matchID uuid.UUID) (Match, error)
-	Update(ctx context.Context, match Match) (*dynamodb.UpdateItemOutput, error)
+	Create(context.Context, Match) (*dynamodb.PutItemOutput, error)
+	GetByID(context.Context, uuid.UUID) (Match, error)
+	Update(context.Context, Match) (*dynamodb.UpdateItemOutput, error)
+	GetListByStatus(context.Context, string, int) ([]Match, error)
 }
 
 type Repository struct {

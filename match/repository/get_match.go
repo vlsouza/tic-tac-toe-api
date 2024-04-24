@@ -2,10 +2,13 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/google/uuid"
@@ -34,4 +37,55 @@ func (r Repository) GetByID(ctx context.Context, matchID uuid.UUID) (Match, erro
 	}
 
 	return response, nil
+}
+
+func (r Repository) GetListByStatus(
+	ctx context.Context,
+	status string,
+	limit int,
+) ([]Match, error) {
+	var response []Match
+
+	results, err := getListByStatus(r.db, status, limit)
+	if err != nil {
+		return []Match{}, fmt.Errorf("failed to get item from DynamoDB, %v", err)
+	}
+
+	if results == nil {
+		return []Match{}, errors.New("no available matches")
+	}
+
+	err = attributevalue.UnmarshalListOfMaps(results.Items, &response)
+	if err != nil {
+		log.Fatalf("failed to unmarshal DynamoDB item to struct, %v", err)
+	}
+
+	return response, nil
+}
+
+func getListByStatus(
+	svc *dynamodb.Client,
+	status string,
+	limit int,
+) (*dynamodb.QueryOutput, error) {
+	tableName := "YourTableName"
+	indexName := "YourIndexName" // Substitua pelo nome do seu índice secundário
+
+	// Construa a condição de chave e a expressão de projeção
+	keyCond := expression.Key("Status").Equal(expression.Value(status))
+	expr, err := expression.NewBuilder().WithKeyCondition(keyCond).Build()
+	if err != nil {
+		log.Fatalf("Got error building expression: %s", err)
+	}
+
+	// Executa a consulta
+	return svc.Query(context.TODO(), &dynamodb.QueryInput{
+		TableName:                 aws.String(tableName),
+		IndexName:                 aws.String(indexName),
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		KeyConditionExpression:    expr.KeyCondition(),
+		Limit:                     aws.Int32(int32(limit)), // Limita a 5 resultados
+		ScanIndexForward:          aws.Bool(false),         // False para ordenar de forma descendente
+	})
 }

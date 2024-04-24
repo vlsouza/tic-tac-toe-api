@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// GetString gets a request parameter as string
+// GetUUID gets a request parameter as string
 func GetUUID(r *http.Request, param string) (uuid.UUID, error) {
 	p, ok := mux.Vars(r)[param]
 	if !ok {
@@ -23,4 +23,14 @@ func GetUUID(r *http.Request, param string) (uuid.UUID, error) {
 	}
 
 	return id, nil
+}
+
+// GetString gets a request parameter as string
+func GetString(r *http.Request, param string) (string, error) {
+	p, ok := mux.Vars(r)[param]
+	if !ok {
+		return "", errors.New("param not found")
+	}
+
+	return p, nil
 }

@@ -42,6 +42,20 @@ func (h *Handler) GetState(w http.ResponseWriter, r *http.Request) {
 	rest.SendJSON(w, matchState)
 }
 
+func (h *Handler) GetListByStatus(w http.ResponseWriter, r *http.Request) {
+	status, err := rest.GetString(r, "status")
+	if err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+
+	matchState, err := h.service.GetListByStatus(r.Context(), status, 10 /* default, more values to be implemented */)
+	if err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+
+	rest.SendJSON(w, matchState)
+}
+
 func (h *Handler) Move(w http.ResponseWriter, r *http.Request) {
 	matchID, err := rest.GetUUID(r, "id")
 	if err != nil {

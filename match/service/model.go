@@ -32,6 +32,8 @@ type GetStateResponse struct {
 	LastMoveXY        string    `json:"last_move_xy"`
 }
 
+type GetStateResponseList []GetStateResponse
+
 type MoveRequest struct {
 	MatchID uuid.UUID
 	Row     int8 `json:"row"`
@@ -54,10 +56,10 @@ func (match CreateMatchRequest) start(ctx context.Context, repo repository.Repos
 	return nil
 }
 
-func NewGetStateResponse(match repository.Match) GetStateResponse {
+func NewGetStateResponse(match repository.Match) (GetStateResponse, error) {
 	matchStateMatchID, err := uuid.Parse(match.ID)
 	if err != nil {
-		return GetStateResponse{}
+		return GetStateResponse{}, err
 	}
 	return GetStateResponse{
 		MatchID:           matchStateMatchID,
@@ -66,7 +68,29 @@ func NewGetStateResponse(match repository.Match) GetStateResponse {
 		CurrentPlayerTurn: match.CurrentPlayerTurn,
 		NextPlayerTurn:    match.NextPlayerTurn,
 		LastMoveXY:        match.LastMoveXY,
+	}, nil
+}
+
+func NewGetStateResponseList(matches []repository.Match) ([]GetStateResponse, error) {
+	response := make([]GetStateResponse, len(matches))
+	for i := range matches {
+		match := matches[i]
+		matchStateMatchID, err := uuid.Parse(match.ID)
+		if err != nil {
+			return []GetStateResponse{}, err
+		}
+
+		response[i] = GetStateResponse{
+			MatchID:           matchStateMatchID,
+			Status:            match.Status,
+			Board:             match.Board,
+			CurrentPlayerTurn: match.CurrentPlayerTurn,
+			NextPlayerTurn:    match.NextPlayerTurn,
+			LastMoveXY:        match.LastMoveXY,
+		}
 	}
+
+	return response, nil
 }
 
 func (a MoveRequest) Validate() error {

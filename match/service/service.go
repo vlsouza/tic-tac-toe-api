@@ -8,9 +8,10 @@ import (
 )
 
 type ServiceI interface {
-	Create(ctx context.Context) (CreateMatchResponse, error)
-	GetStateByID(ctx context.Context, matchID uuid.UUID) (GetStateResponse, error)
-	PlaceMove(ctx context.Context, request MoveRequest) (GetStateResponse, error)
+	Create(context.Context) (CreateMatchResponse, error)
+	GetStateByID(context.Context, uuid.UUID) (GetStateResponse, error)
+	PlaceMove(context.Context, MoveRequest) (GetStateResponse, error)
+	GetListByStatus(context.Context, string, int) ([]GetStateResponse, error)
 }
 
 type Service struct {

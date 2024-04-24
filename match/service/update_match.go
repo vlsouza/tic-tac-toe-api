@@ -18,7 +18,7 @@ func (svc Service) PlaceMove(ctx context.Context, request MoveRequest) (GetState
 		return GetStateResponse{}, err
 	}
 
-	return NewGetStateResponse(newMatchState), nil
+	return NewGetStateResponse(newMatchState)
 }
 
 func (svc Service) GetNextState(
