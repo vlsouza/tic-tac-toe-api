@@ -36,6 +36,11 @@ func startNewMatch(ctx context.Context, repo repository.RepositoryI) (GetStateRe
 	}
 
 	return GetStateResponse{
-		MatchID: match.ID,
+		MatchID:           match.ID,
+		Status:            match.Status,
+		Board:             match.Board,
+		CurrentPlayerTurn: match.CurrentPlayerTurn,
+		NextPlayerTurn:    match.NextPlayerTurn,
+		LastMoveXY:        match.LastMoveXY,
 	}, nil
 }
