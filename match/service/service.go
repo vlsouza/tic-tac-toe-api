@@ -8,7 +8,7 @@ import (
 )
 
 type ServiceI interface {
-	Create(context.Context) (CreateMatchResponse, error)
+	Create(context.Context) (GetStateResponse, error)
 	GetStateByID(context.Context, uuid.UUID) (GetStateResponse, error)
 	PlaceMove(context.Context, MoveRequest) (GetStateResponse, error)
 	GetListByStatus(context.Context, string, int) ([]GetStateResponse, error)

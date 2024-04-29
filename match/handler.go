@@ -56,6 +56,7 @@ func (h *Handler) GetListByStatus(w http.ResponseWriter, r *http.Request) {
 	rest.SendJSON(w, matchState)
 }
 
+// improve name
 func (h *Handler) Move(w http.ResponseWriter, r *http.Request) {
 	matchID, err := rest.GetUUID(r, "id")
 	if err != nil {

@@ -9,14 +9,14 @@ import (
 )
 
 // Create ...
-func (svc Service) Create(ctx context.Context) (CreateMatchResponse, error) {
+func (svc Service) Create(ctx context.Context) (GetStateResponse, error) {
 	return startNewMatch(ctx, svc.repo)
 }
 
-func startNewMatch(ctx context.Context, repo repository.RepositoryI) (CreateMatchResponse, error) {
+func startNewMatch(ctx context.Context, repo repository.RepositoryI) (GetStateResponse, error) {
 	id, err := uuid.NewUUID()
 	if err != nil {
-		return CreateMatchResponse{}, err
+		return GetStateResponse{}, err
 	}
 
 	//new match instance
@@ -32,10 +32,10 @@ func startNewMatch(ctx context.Context, repo repository.RepositoryI) (CreateMatc
 	//start match on dynamoDB
 	err = match.start(ctx, repo)
 	if err != nil {
-		return CreateMatchResponse{}, err
+		return GetStateResponse{}, err
 	}
 
-	return CreateMatchResponse{
+	return GetStateResponse{
 		MatchID: match.ID,
 	}, nil
 }
