@@ -82,3 +82,15 @@ func (h *Handler) Move(w http.ResponseWriter, r *http.Request) {
 
 	rest.SendJSON(w, newMatchState)
 }
+
+func (h *Handler) Start(w http.ResponseWriter, r *http.Request) {
+	matchID, err := rest.GetUUID(r, "id")
+	if err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+
+	err = h.service.Start(r.Context(), matchID)
+	if err != nil {
+		fmt.Fprint(w, err.Error())
+	}
+}

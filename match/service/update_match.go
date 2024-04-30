@@ -6,7 +6,25 @@ import (
 	"fmt"
 	"main/match/repository"
 	"strings"
+
+	"github.com/google/uuid"
 )
+
+func (svc Service) Start(ctx context.Context, matchID uuid.UUID) error {
+	matchState, err := svc.repo.GetByID(ctx, matchID)
+	if err != nil {
+		return err
+	}
+
+	matchState.Status = "RUNNING"
+
+	_, err = svc.repo.Update(ctx, matchState)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (svc Service) PlaceMove(ctx context.Context, request MoveRequest) (GetStateResponse, error) {
 	newMatchState, err := svc.GetNextState(ctx, request)
