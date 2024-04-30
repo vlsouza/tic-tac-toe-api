@@ -107,7 +107,7 @@ func getGameStatus(board, player string) string {
 
 	// Check for tie
 	if !strings.Contains(strings.Join(rows, ""), "0") {
-		return "TIE"
+		return "DRAW"
 	}
 
 	return "RUNNING"
