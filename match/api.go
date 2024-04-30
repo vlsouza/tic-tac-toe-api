@@ -28,7 +28,7 @@ func NewAPI(c Config) {
 func SetRoutes(handler *Handler, router *mux.Router) {
 	router.HandleFunc("/matches", handler.Create).Methods(http.MethodPost)
 	router.HandleFunc("/matches/{id}/move", handler.Move).Methods(http.MethodPut)
-	router.HandleFunc("/matches/{id}/start", handler.Move).Methods(http.MethodPut)
+	router.HandleFunc("/matches/{id}/start", handler.Start).Methods(http.MethodPut)
 	router.HandleFunc("/matches/{id}", handler.GetState).Methods(http.MethodGet)
 	router.HandleFunc("/matches", handler.GetListByStatus).Methods(http.MethodGet)
 }
