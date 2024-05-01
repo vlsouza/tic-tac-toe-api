@@ -1,7 +1,7 @@
 package enumer
 
 import (
-	"fmt"
+	"errors"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -19,16 +19,17 @@ const (
 	DRAW
 )
 
-func (s StatusType) ToAttributeValue() types.AttributeValue {
-	return &types.AttributeValueMemberS{Value: s.String()}
+func (p StatusType) MarshalDynamoDBAttributeValue() (types.AttributeValue, error) {
+	s := p.String() // Ensure that String method returns the correct string representation
+	return &types.AttributeValueMemberS{Value: s}, nil
 }
 
-func (s *StatusType) FromAttributeValue(av types.AttributeValue) error {
-	value, ok := av.(*types.AttributeValueMemberS)
-	if !ok {
-		return fmt.Errorf("expected string value for StatusType")
+func (p *StatusType) UnmarshalDynamoDBAttributeValue(av types.AttributeValue) error {
+	// Type assert to *types.AttributeValueMemberS to handle string values
+	if s, ok := av.(*types.AttributeValueMemberS); ok {
+		var err error
+		*p, err = StatusTypeString(s.Value)
+		return err
 	}
-	var err error
-	*s, err = StatusTypeString(value.Value)
-	return err
+	return errors.New("expected string value for StatusType")
 }
