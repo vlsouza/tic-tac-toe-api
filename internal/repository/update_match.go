@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -9,6 +10,7 @@ import (
 )
 
 func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateItemOutput, error) {
+	fmt.Print("Updating...")
 	expr, err := expression.NewBuilder().WithUpdate(
 		expression.Set(
 			expression.Name("status"), expression.Value(match.Status.String()),
@@ -37,5 +39,6 @@ func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateIt
 		//ReturnValues:              types.ReturnValueUpdatedNew,
 	}
 
+	fmt.Print("Success")
 	return r.db.UpdateItem(ctx, input)
 }
