@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-
+	"main/internal/enumer"
 	"main/internal/repository"
 
 	"github.com/google/uuid"
@@ -13,10 +13,10 @@ import (
 // TODO move status and players to enum
 type CreateMatchRequest struct {
 	ID                uuid.UUID
-	Status            string
+	Status            enumer.StatusType
 	Board             string
-	CurrentPlayerTurn string
-	NextPlayerTurn    string
+	CurrentPlayerTurn enumer.PlayerType
+	NextPlayerTurn    enumer.PlayerType
 	LastMoveXY        string
 }
 
@@ -25,12 +25,12 @@ type CreateMatchResponse struct {
 }
 
 type GetStateResponse struct {
-	MatchID           uuid.UUID `json:"match_id"`
-	Status            string    `json:"status"`
-	Board             string    `json:"board"`
-	CurrentPlayerTurn string    `json:"current_player_turn"`
-	NextPlayerTurn    string    `json:"next_player_turn"`
-	LastMoveXY        string    `json:"last_move_xy"`
+	MatchID           uuid.UUID         `json:"match_id"`
+	Status            enumer.StatusType `json:"status"`
+	Board             string            `json:"board"`
+	CurrentPlayerTurn enumer.PlayerType `json:"current_player_turn"`
+	NextPlayerTurn    enumer.PlayerType `json:"next_player_turn"`
+	LastMoveXY        string            `json:"last_move_xy"`
 }
 
 type GetStateResponseList []GetStateResponse

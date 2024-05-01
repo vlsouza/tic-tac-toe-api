@@ -13,13 +13,13 @@ func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateIt
 	fmt.Print("Updating...")
 	expr, err := expression.NewBuilder().WithUpdate(
 		expression.Set(
-			expression.Name("status"), expression.Value(match.Status),
+			expression.Name("status"), expression.Value(&types.AttributeValueMemberS{Value: match.Status.String()}),
 		).Set(
 			expression.Name("board"), expression.Value(match.Board),
 		).Set(
-			expression.Name("current_player_turn"), expression.Value(match.CurrentPlayerTurn),
+			expression.Name("current_player_turn"), expression.Value(&types.AttributeValueMemberS{Value: match.CurrentPlayerTurn.String()}),
 		).Set(
-			expression.Name("next_player_turn"), expression.Value(match.NextPlayerTurn),
+			expression.Name("next_player_turn"), expression.Value(&types.AttributeValueMemberS{Value: match.NextPlayerTurn.String()}),
 		).Set(
 			expression.Name("last_move_xy"), expression.Value(match.LastMoveXY),
 		),
