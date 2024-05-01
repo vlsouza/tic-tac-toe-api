@@ -15,9 +15,9 @@ func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateIt
 		).Set(
 			expression.Name("board"), expression.Value(match.Board),
 		).Set(
-			expression.Name("current_player_turn"), expression.Value(match.CurrentPlayerTurn),
+			expression.Name("current_player_turn"), expression.Value(match.CurrentPlayerTurn.ToAttributeValue()),
 		).Set(
-			expression.Name("next_player_turn"), expression.Value(match.NextPlayerTurn),
+			expression.Name("next_player_turn"), expression.Value(match.NextPlayerTurn.ToAttributeValue()),
 		).Set(
 			expression.Name("last_move_xy"), expression.Value(match.LastMoveXY),
 		),
