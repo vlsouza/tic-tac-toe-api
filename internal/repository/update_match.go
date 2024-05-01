@@ -11,7 +11,7 @@ import (
 func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateItemOutput, error) {
 	expr, err := expression.NewBuilder().WithUpdate(
 		expression.Set(
-			expression.Name("status"), expression.Value(match.Status),
+			expression.Name("status"), expression.Value(match.Status.ToAttributeValue()),
 		).Set(
 			expression.Name("board"), expression.Value(match.Board),
 		).Set(
