@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"main/match"
+	match "main/internal"
 	"net/http"
 
 	"github.com/aws/aws-sdk-go-v2/config"

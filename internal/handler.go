@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"main/match/service"
+	"main/internal/service"
 	"main/rest"
 )
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"main/match/repository"
+	"main/internal/repository"
 	"strings"
 
 	"github.com/google/uuid"

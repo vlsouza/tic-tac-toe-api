@@ -3,8 +3,8 @@ package match
 import (
 	"net/http"
 
-	"main/match/repository"
-	"main/match/service"
+	"main/internal/repository"
+	"main/internal/service"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gorilla/mux"

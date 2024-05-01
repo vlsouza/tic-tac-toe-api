@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"main/match/repository"
+	"main/internal/repository"
 
 	"github.com/google/uuid"
 )
