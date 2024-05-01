@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
+	"main/internal/enumer"
 	"main/internal/repository"
 	"strings"
 
@@ -16,8 +18,7 @@ func (svc Service) Start(ctx context.Context, matchID uuid.UUID) error {
 		return err
 	}
 
-	matchState.Status = "RUNNING"
-
+	matchState.Status = enumer.RUNNING
 	_, err = svc.repo.Update(ctx, matchState)
 	if err != nil {
 		return err
@@ -48,7 +49,7 @@ func (svc Service) GetNextState(
 		return repository.Match{}, err
 	}
 
-	if currentMatchState.Status != "RUNNING" {
+	if currentMatchState.Status != enumer.RUNNING {
 		return repository.Match{}, errors.New("the match is current not Running. Cannot update the board")
 	}
 
@@ -68,13 +69,17 @@ func (svc Service) GetNextState(
 
 // TODO optimize updateBoard and inside functions
 // Updates the tic-tac-toe board and checks game status
-func getBoard(board, player string, row, col int8) string {
+func getBoard(
+	board string,
+	player enumer.PlayerType,
+	row, col int8,
+) string {
 	//fix bug generating new board
 	rows := strings.Split(board, ",")
 	for i := 0; i < 3; i++ {
 		cells := strings.Split(rows[i], "")
 		if int8(i) == row-1 {
-			cells[col-1] = strings.Replace(player, "PLAYER", "", -1)
+			cells[col-1] = strings.Replace(player.String(), "PLAYER", "", -1)
 			rows[i] = strings.Join(cells, "")
 		}
 	}
@@ -83,10 +88,10 @@ func getBoard(board, player string, row, col int8) string {
 }
 
 // Get the status of the game
-func getGameStatus(board, player string) string {
+func getGameStatus(board string, player enumer.PlayerType) enumer.StatusType {
 	rows := strings.Split(board, ",")
 	//move to function or improve 'player' type
-	playerNumber := strings.Replace(player, "PLAYER", "", -1)
+	playerNumber := strings.Replace(player.String(), "PLAYER", "", -1)
 	winningPlayer := fmt.Sprintf("%s%s%s", playerNumber, playerNumber, playerNumber)
 
 	// Check rows and columns for win
@@ -107,24 +112,23 @@ func getGameStatus(board, player string) string {
 
 	// Check for tie
 	if !strings.Contains(strings.Join(rows, ""), "0") {
-		return "DRAW"
+		return enumer.DRAW
 	}
 
-	return "RUNNING"
+	return enumer.RUNNING
 }
 
-func getPlayers(currentPlayer string) (string, string) {
-	if currentPlayer == "PLAYER1" {
-		return "PLAYER2", "PLAYER1"
-	} else {
-		return "PLAYER1", "PLAYER2"
+func getPlayers(currentPlayer enumer.PlayerType) (enumer.PlayerType, enumer.PlayerType) {
+	if currentPlayer == enumer.PLAYER1 {
+		return enumer.PLAYER2, enumer.PLAYER1
 	}
+	return enumer.PLAYER1, enumer.PLAYER2
 }
 
 // Returns the win status based on the player
-func winStatus(player string) string {
-	if player == "PLAYER1" {
-		return "PLAYER1WON"
+func winStatus(player enumer.PlayerType) enumer.StatusType {
+	if player == enumer.PLAYER1 {
+		return enumer.PLAYER1WON
 	}
-	return "PLAYER2WON"
+	return enumer.PLAYER2WON
 }
