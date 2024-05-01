@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"main/internal/enumer"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -30,8 +28,8 @@ func (m Match) getDynamoRequest() map[string]types.AttributeValue {
 		"match_id":            &types.AttributeValueMemberS{Value: m.ID},
 		"status":              &types.AttributeValueMemberS{Value: m.Status.String()},
 		"board":               &types.AttributeValueMemberS{Value: m.Board},
-		"current_player_turn": &types.AttributeValueMemberS{Value: fmt.Sprint(m.CurrentPlayerTurn)},
-		"next_player_turn":    &types.AttributeValueMemberS{Value: fmt.Sprint(m.NextPlayerTurn)},
+		"current_player_turn": &types.AttributeValueMemberS{Value: m.CurrentPlayerTurn.String()},
+		"next_player_turn":    &types.AttributeValueMemberS{Value: m.NextPlayerTurn.String()},
 		"last_move_xy":        &types.AttributeValueMemberS{Value: m.LastMoveXY},
 	}
 }
