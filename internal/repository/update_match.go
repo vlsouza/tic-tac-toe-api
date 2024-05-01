@@ -34,7 +34,7 @@ func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateIt
 		UpdateExpression:          expr.Update(),
 		ExpressionAttributeNames:  expr.Names(),
 		ExpressionAttributeValues: expr.Values(),
-		ReturnValues:              types.ReturnValueAllNew,
+		//ReturnValues:              types.ReturnValueUpdatedNew,
 	}
 
 	return r.db.UpdateItem(ctx, input)
