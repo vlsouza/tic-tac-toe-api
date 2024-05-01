@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 
-	"main/internal/enumer"
 	"main/internal/repository"
 
 	"github.com/google/uuid"
@@ -23,10 +22,10 @@ func startNewMatch(ctx context.Context, repo repository.RepositoryI) (GetStateRe
 	//new match instance
 	match := CreateMatchRequest{
 		ID:                id,
-		Status:            enumer.PENDINGPLAYER,
+		Status:            "PENDINGPLAYER",
 		Board:             "000,000,000",
-		CurrentPlayerTurn: enumer.PLAYER1,
-		NextPlayerTurn:    enumer.PLAYER2,
+		CurrentPlayerTurn: "PLAYER1",
+		NextPlayerTurn:    "PLAYER2",
 		LastMoveXY:        "",
 	}
 
