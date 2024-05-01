@@ -11,13 +11,13 @@ import (
 func (r Repository) Update(ctx context.Context, match Match) (*dynamodb.UpdateItemOutput, error) {
 	expr, err := expression.NewBuilder().WithUpdate(
 		expression.Set(
-			expression.Name("status"), expression.Value(match.Status.ToAttributeValue()),
+			expression.Name("status"), expression.Value(match.Status.String()),
 		).Set(
 			expression.Name("board"), expression.Value(match.Board),
 		).Set(
-			expression.Name("current_player_turn"), expression.Value(match.CurrentPlayerTurn.ToAttributeValue()),
+			expression.Name("current_player_turn"), expression.Value(match.CurrentPlayerTurn.String()),
 		).Set(
-			expression.Name("next_player_turn"), expression.Value(match.NextPlayerTurn.ToAttributeValue()),
+			expression.Name("next_player_turn"), expression.Value(match.NextPlayerTurn.String()),
 		).Set(
 			expression.Name("last_move_xy"), expression.Value(match.LastMoveXY),
 		),
