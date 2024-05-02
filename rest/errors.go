@@ -8,7 +8,7 @@ import (
 )
 
 func InvalidParameter(w http.ResponseWriter, err error) {
-	http.Error(w, fmt.Sprintf("Invalid parameter: %s", err.Error()), http.StatusInternalServerError)
+	http.Error(w, fmt.Sprintf("Invalid parameter: %s", err.Error()), http.StatusBadRequest)
 }
 
 func InternalError(w http.ResponseWriter, err error) {
