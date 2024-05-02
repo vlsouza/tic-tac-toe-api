@@ -24,6 +24,8 @@ func HandleError(w http.ResponseWriter, err error) {
 		http.Error(w, fmt.Sprintf("Resource not found: %s", err.Error()), http.StatusNotFound)
 	} else if errors.Is(err, service.ErrMatchNotRunnig) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+	} else if errors.Is(err, service.ErrMatchAlreadyRunnig) {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 	} else {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

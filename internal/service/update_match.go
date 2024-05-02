@@ -22,6 +22,10 @@ func (svc Service) Start(ctx context.Context, matchID uuid.UUID) error {
 		return err
 	}
 
+	if matchState.Status == enumer.RUNNING {
+		return ErrMatchAlreadyRunnig
+	}
+
 	matchState.Status = enumer.RUNNING
 	_, err = svc.repo.Update(ctx, matchState)
 	if err != nil {
