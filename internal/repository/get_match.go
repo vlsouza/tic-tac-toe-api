@@ -27,7 +27,7 @@ func (r Repository) GetByID(ctx context.Context, matchID uuid.UUID) (Match, erro
 	}
 
 	if result.Item == nil {
-		return Match{}, fmt.Errorf("no item found with MatchID: %s", matchID.String())
+		return Match{}, ErrNotFound
 	}
 
 	err = attributevalue.UnmarshalMap(result.Item, &response)

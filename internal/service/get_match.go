@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"errors"
+	"main/internal/repository"
 
 	"github.com/google/uuid"
 )
@@ -10,6 +12,10 @@ import (
 func (svc Service) GetStateByID(ctx context.Context, matchID uuid.UUID) (GetStateResponse, error) {
 	match, err := svc.repo.GetByID(ctx, matchID)
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			return GetStateResponse{}, ErrNotFound
+		}
+
 		return GetStateResponse{}, err
 	}
 

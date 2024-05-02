@@ -7,19 +7,13 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.13.13
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.7.13
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.31.1
+	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+	github.com/golang/mock v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/pkg/errors v0.9.1
 )
 
-require (
-	github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.20.4 // indirect
-	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
-	github.com/golang/mock v1.6.0 // indirect
-	golang.org/x/mod v0.4.2 // indirect
-	golang.org/x/sys v0.0.0-20210510120138-977fb7262007 // indirect
-	golang.org/x/tools v0.1.1 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-)
+require github.com/aws/aws-sdk-go-v2/service/dynamodbstreams v1.20.4 // indirect
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.26.1

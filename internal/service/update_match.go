@@ -15,6 +15,10 @@ import (
 func (svc Service) Start(ctx context.Context, matchID uuid.UUID) error {
 	matchState, err := svc.repo.GetByID(ctx, matchID)
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			return ErrNotFound
+		}
+
 		return err
 	}
 
@@ -46,11 +50,15 @@ func (svc Service) GetNextState(
 ) (repository.Match, error) {
 	currentMatchState, err := svc.repo.GetByID(ctx, request.MatchID)
 	if err != nil {
+		if errors.Is(err, repository.ErrNotFound) {
+			return repository.Match{}, ErrNotFound
+		}
+
 		return repository.Match{}, err
 	}
 
 	if currentMatchState.Status != enumer.RUNNING {
-		return repository.Match{}, errors.New("the match is current not Running. Cannot update the board")
+		return repository.Match{}, ErrMatchNotRunnig
 	}
 
 	newBoard := getBoard(currentMatchState.Board, currentMatchState.CurrentPlayerTurn, request.Row, request.Col)
