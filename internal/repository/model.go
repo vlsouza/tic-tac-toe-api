@@ -17,7 +17,7 @@ type Match struct {
 	LastMoveXY        string            `dynamodbav:"last_move_xy"`
 }
 
-const TableName string = "TicTacToeMatch"
+const TableName string = "tic_tac_toe_match"
 
 func (Match) awsTableName() *string {
 	return aws.String(TableName)
